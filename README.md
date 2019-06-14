@@ -1,2 +1,1 @@
-# reactjs-oui-chef
-🍲 Oui, Chef!
+# 🍲 Oui, Chef!
