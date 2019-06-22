@@ -1,0 +1,9 @@
+{
+    "data": {
+        "baseUrl": ""
+    },
+
+    "mock": {
+        "recipe": true
+    }
+}
