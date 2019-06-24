@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Recipe } from "../../domain/model/Recipe";
 import * as RecipeActions from "../../actions/recipeActions"
 import { ApplicationState } from "../..";
+import RecipeView from "./RecipeView";
+import Button from '@material-ui/core/Button';
 
 interface StateProps {
     recipes: Recipe[],
@@ -16,7 +18,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-class RecipeList extends Component<Props> {
+class RecipeListView extends Component<Props> {
 
     componentDidMount() {
         this.props.loadRecipes();
@@ -25,7 +27,7 @@ class RecipeList extends Component<Props> {
 
     componentWillReceiveProps(nextProps: any) {
         if (nextProps.test) {
-            console.log("test");    
+            console.log("test");
         }
         console.log("componentWillReceiveProps");
         console.log(nextProps);
@@ -36,15 +38,33 @@ class RecipeList extends Component<Props> {
         this.props.loadRecipes();
     }
 
+    onClickRecipe() {
+        console.log("On click recipe!!!!");
+    }
+
     render() {
         const { recipes } = this.props;
 
         return (
             <>
                 <ul>
-                    {recipes.map(item => <li>{item.name}</li>)}
+                    {
+                        recipes.map(recipe =>
+                            <li>
+                                <RecipeView
+                                    recipe={recipe}
+                                    onClickRecipe={this.onClickRecipe.bind(this)} />
+                            </li>
+                        )
+                    }
                 </ul>
-                <button onClick={this.onClickButton.bind(this)}>Click me</button>
+
+                <Button
+                    onClick={this.onClickButton.bind(this)}
+                    variant="contained"
+                    color="primary">
+                    Click me
+                </Button>
             </>
         );
     }
@@ -53,12 +73,11 @@ class RecipeList extends Component<Props> {
 
 const mapStateToProps = (state: ApplicationState) => {
     return ({
-        recipes: state.recipes.data,
-        loading: state.recipes.loading,
+        ...state.recipes,
     });
 
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(RecipeActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeListView);

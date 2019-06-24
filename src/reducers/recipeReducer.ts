@@ -2,7 +2,7 @@ import { Reducer, AnyAction } from "redux";
 import { RecipeState, RecipeTypes } from "../types/recipeTypes";
 
 const INITIAL_STATE: RecipeState = {
-    data: [],
+    recipes: [],
     error: false,
     loading: false
 }
@@ -12,9 +12,9 @@ const reducer: Reducer<RecipeState> = (state = INITIAL_STATE, action: AnyAction)
         case RecipeTypes.LOAD_REQUEST:
             return { ...state, loading: true };
         case RecipeTypes.LOAD_SUCCESS:
-            return { ...state, loading: false, error: false, data: action.recipes };
+            return { ...state, loading: false, error: false, recipes: action.recipes };
         case RecipeTypes.LOAD_FAILURE:
-            return { ...state, loading: false, error: true, data: [] };
+            return { ...state, loading: false, error: true, recipes: [] };
         default:
             return state;
     }

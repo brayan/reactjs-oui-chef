@@ -13,7 +13,7 @@ export enum RecipeTypes {
  * State type
  */
 export interface RecipeState {
-    readonly data: Recipe[]
+    readonly recipes: Recipe[]
     readonly loading: boolean
     readonly error: boolean
 }
