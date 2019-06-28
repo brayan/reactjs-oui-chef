@@ -1,83 +1,29 @@
 import React, { Component } from "react";
-import { bindActionCreators, Dispatch } from "redux";
-import { connect } from "react-redux";
 import { Recipe } from "../../domain/model/Recipe";
-import * as RecipeActions from "../../actions/recipeActions"
-import { ApplicationState } from "../..";
 import RecipeView from "./RecipeView";
-import Button from '@material-ui/core/Button';
+import List from "@material-ui/core/List";
 
-interface StateProps {
+interface Props {
     recipes: Recipe[],
-    loading: boolean
+    onClickRecipe(recipe: Recipe): void
 }
 
-interface DispatchProps {
-    loadRecipes(): void;
-}
-
-type Props = StateProps & DispatchProps;
-
-class RecipeListView extends Component<Props> {
-
-    componentDidMount() {
-        this.props.loadRecipes();
-        console.log("componentDidMount");
-    }
-
-    componentWillReceiveProps(nextProps: any) {
-        if (nextProps.test) {
-            console.log("test");
-        }
-        console.log("componentWillReceiveProps");
-        console.log(nextProps);
-    }
-
-
-    onClickButton() {
-        this.props.loadRecipes();
-    }
-
-    onClickRecipe() {
-        console.log("On click recipe!!!!");
-    }
+export default class RecipeListView extends Component<Props> {
 
     render() {
-        const { recipes } = this.props;
+        const { recipes, onClickRecipe } = this.props;
 
         return (
-            <>
-                <ul>
+                <List component="nav" aria-label="Secondary mailbox folders">
                     {
-                        recipes.map(recipe =>
-                            <li>
-                                <RecipeView
-                                    recipe={recipe}
-                                    onClickRecipe={this.onClickRecipe.bind(this)} />
-                            </li>
+                        recipes.map((recipe, index) =>
+                            <RecipeView
+                                key={index}
+                                recipe={recipe}
+                                onClickRecipe={onClickRecipe} />
                         )
                     }
-                </ul>
-
-                <Button
-                    onClick={this.onClickButton.bind(this)}
-                    variant="contained"
-                    color="primary">
-                    Click me
-                </Button>
-            </>
+                </List>
         );
     }
-
 }
-
-const mapStateToProps = (state: ApplicationState) => {
-    return ({
-        ...state.recipes,
-    });
-
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(RecipeActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeListView);
