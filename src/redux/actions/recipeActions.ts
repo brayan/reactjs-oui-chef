@@ -1,8 +1,6 @@
 import { Dispatch } from "redux";
-import RepositoryFactory from "../data/RepositoryFactory";
+import RepositoryFactory from "../../data/RepositoryFactory";
 import { RecipeTypes } from "../types/recipeTypes";
-import { Recipe } from "../domain/model/Recipe";
-import { RecipeDetailsTypes } from "../types/recipeDetailsTypes";
 
 const repository = RepositoryFactory.getRecipeRepository();
 
@@ -26,8 +24,4 @@ function loadRequest() {
 
 function loadFailure() {
     return { type: RecipeTypes.LOAD_FAILURE };
-}
-
-export function setRecipeDetails(recipe: Recipe) {
-    return { type: RecipeDetailsTypes.SET_RECIPE, recipe: recipe };
 }

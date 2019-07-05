@@ -2,20 +2,31 @@ import React, { Component } from "react";
 import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
-import * as RecipeActions from "../../actions/recipeActions"
-import { Recipe } from "../../domain/model/Recipe";
-import { ApplicationState } from "../../.";
+import * as RecipeDetailsActions from "../../redux/actions/recipeDetailsActions"
 import Button from "@material-ui/core/Button/Button";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import ApplicationState from "../../redux/state/ApplicationState";
+import RecipeDetailsState from "../../redux/state/RecipeDetailsState";
 
-interface Props extends RouteComponentProps {
-    recipe: Recipe
+interface DispatchProps {
+    loadRecipeDetails(): void;
+    setRecipe(recipeId: number): void;
 }
 
-class RecipeDetails extends Component<Props> {
+interface SelfProps {
+    onClickRecipe(): void
+}
+
+type Props = RecipeDetailsState & DispatchProps & SelfProps & RouteComponentProps;
+
+class RecipeDetailsContainer extends Component<Props> {
+
+    componentDidMount() {
+        this.props.loadRecipeDetails();
+    }
 
     private onClickStart() {
         // TODO
@@ -36,7 +47,7 @@ class RecipeDetails extends Component<Props> {
     }
 
     render() {
-        const { recipe } = this.props;
+        const { recipeDetails } = this.props;
 
         const classes: any = makeStyles(theme => ({
             root: {
@@ -81,10 +92,10 @@ class RecipeDetails extends Component<Props> {
                         Export as Shopping List
                 </Button>
                     <Typography variant="h2" component="h1" gutterBottom>
-                        {recipe.name}
+                        {recipeDetails.name}
                     </Typography>
 
-                    {recipe.steps.map((element, index) => <Typography key={index} variant="body1">{element.description}</Typography>)}
+                    {recipeDetails.steps.map((element, index) => <Typography key={index} variant="body1">{element.description}</Typography>)}
 
                     <Button
                         onClick={this.onClickStart.bind(this)}
@@ -107,6 +118,6 @@ const mapStateToProps = (state: ApplicationState) => {
 
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(RecipeActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(RecipeDetailsActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeDetailsContainer);

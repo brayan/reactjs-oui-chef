@@ -5,18 +5,12 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import rootReducer from './reducers/rootReducer';
-import { RecipeState } from './types/recipeTypes';
-import { RecipeDetailsState } from './types/recipeDetailsTypes';
+import rootReducer from './redux/reducers/rootReducer';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Recipes from './ui/page/Recipes';
-import RecipeDetails from './ui/page/RecipeDetails';
-import Cooking from './ui/page/Cooking';
-
-export interface ApplicationState {
-    recipes: RecipeState;
-    details: RecipeDetailsState;
-}
+import RecipesContainer from './ui/container/RecipesContainer';
+import RecipeDetailsContainer from './ui/container/RecipeDetailsContainer';
+import CookingContainer from './ui/container/CookingContainer';
+import ApplicationState from './redux/state/ApplicationState';
 
 const store: Store<ApplicationState> = createStore(rootReducer,
     compose(
@@ -29,9 +23,9 @@ ReactDOM.render(
     (<Provider store={store}>
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" component={Recipes} />
-                <Route path="/recipeDetails" component={RecipeDetails} />
-                <Route path="/cooking" component={Cooking} />
+                <Route exact path="/" component={RecipesContainer} />
+                <Route path="/recipeDetails" component={RecipeDetailsContainer} />
+                <Route path="/cooking" component={CookingContainer} />
             </Switch>
         </BrowserRouter>
     </Provider>),

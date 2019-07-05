@@ -1,41 +1,33 @@
 import React, { Component } from "react";
 import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
-import * as RecipeActions from "../../actions/recipeActions"
+import * as RecipeActions from "../../redux/actions/recipeActions"
+import * as RecipeDetailsActions from "../../redux/actions/recipeDetailsActions"
 import { RouteComponentProps } from "react-router";
-import { Recipe } from "../../domain/model/Recipe";
-import RecipeListView from "../../ui/component/RecipeListView";
-import { ApplicationState } from "../../";
+import RecipeListView from "../component/RecipeListView";
 import Button from "@material-ui/core/Button/Button";
-
-interface StateProps {
-    recipes: Recipe[],
-    loading: boolean,
-}
+import ApplicationState from "../../redux/state/ApplicationState";
+import RecipeState from "../../redux/state/RecipeState";
 
 interface DispatchProps {
-    loadRecipes(): void
-    setRecipeDetails(recipe: Recipe): void
+    loadRecipes(): void;
+    setRecipe(recipeId: number): void;
 }
 
 interface SelfProps {
     onClickRecipe(): void
 }
 
-type Props = StateProps & DispatchProps & SelfProps & RouteComponentProps;
+type Props = RecipeState & DispatchProps & SelfProps & RouteComponentProps;
 
-class Recipes extends Component<Props> {
+class RecipesContainer extends Component<Props> {
 
     componentDidMount() {
         this.props.loadRecipes();
     }
 
-    componentWillReceiveProps(nextProps: any) {
-
-    }
-
-    private onClickRecipe(recipe: Recipe) {
-        this.props.setRecipeDetails(recipe);
+    private onClickRecipe(recipeId: number) {
+        this.props.setRecipe(recipeId);
         this.props.history.push("/recipeDetails");
     }
 
@@ -65,6 +57,11 @@ const mapStateToProps = (state: ApplicationState) => {
 
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(RecipeActions, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        ...bindActionCreators(RecipeActions, dispatch),
+        ...bindActionCreators(RecipeDetailsActions, dispatch),
+    }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Recipes);
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesContainer);

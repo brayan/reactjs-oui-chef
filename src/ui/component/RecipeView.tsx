@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Recipe } from "../../domain/model/Recipe";
 import './RecipeView.css';
 import { ListItem } from "@material-ui/core";
+import { Recipe } from "../../domain/model/Recipe";
 
 interface Props {
     readonly recipe: Recipe;
-    onClickRecipe(recipe: Recipe): void
+    onClickRecipe(recipeId: number): void;
 }
 
 export default class RecipeView extends Component<Props> {
@@ -15,7 +15,7 @@ export default class RecipeView extends Component<Props> {
         
         return (
             <div className="recipeWrapper">
-                <ListItem button onClick={() => onClickRecipe(recipe)}>
+                <ListItem button onClick={() => onClickRecipe(recipe.id)}>
                 {recipe.name}
                 </ListItem>
             </div>

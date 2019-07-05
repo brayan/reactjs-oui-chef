@@ -1,5 +1,6 @@
 import { Reducer, AnyAction } from "redux";
-import { RecipeState, RecipeTypes } from "../types/recipeTypes";
+import { RecipeTypes } from "../types/recipeTypes";
+import RecipeState from "../state/RecipeState";
 
 const INITIAL_STATE: RecipeState = {
     recipes: [],

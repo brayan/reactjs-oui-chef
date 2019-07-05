@@ -8,4 +8,9 @@ export class RecipeRepositoryImpl implements RecipeRepository {
             .then(result => result.json());
     }
 
+    async getRecipe(recipeId: number): Promise<Recipe> {
+        return fetch('')
+            .then(result => result.json());
+    }
+
 }
